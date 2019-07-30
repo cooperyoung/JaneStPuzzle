@@ -32,7 +32,7 @@ def get_score(word):
 
 for i in range( len(scrabblewords) ):
 	highscore = True
-	if get_score(scrabblewords[i]) < 36:
+	if get_score(scrabblewords[i]) < 32:
 		highscore = False
 	if highscore:
 		goodwords.append( scrabblewords[i] )
@@ -100,8 +100,8 @@ for tupl in list(quadlist):
 print(len(goodwords))
 
 print(len(quadlist))
-for q in quadlist: 
-	print(q) 
+# for q in quadlist: 
+# 	print(q) 
 
 
 
