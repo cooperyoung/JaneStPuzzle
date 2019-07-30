@@ -32,7 +32,7 @@ def get_score(word):
 
 for i in range( len(scrabblewords) ):
 	highscore = True
-	if get_score(scrabblewords[i]) < 36:
+	if get_score(scrabblewords[i]) < 34:
 		highscore = False
 	if highscore:
 		goodwords.append( scrabblewords[i] )
@@ -48,6 +48,12 @@ for word in list(goodwords):
 			goodwords.remove(word)
 			break
 		if word[i] == 'u' and word[i+1] == 'o':
+			goodwords.remove(word)
+			break
+		if word[i] == 'u' and word[i+1] == 'i':
+			goodwords.remove(word)
+			break
+		if word[i] == 'i' and word[i+1] == 'u':
 			goodwords.remove(word)
 			break
 
