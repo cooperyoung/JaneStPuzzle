@@ -9,17 +9,17 @@ with open("scrabblewords.txt", "r") as longlist:
 score = {}
 for k in ['e', 'a', 'i', 'o', 'n', 'r', 't', 'l', 's', 'u']:
 	score[k] = 1
-for k in ['D', 'G']:
+for k in ['d', 'g']:
 	score[k] = 2
-for k in ['B', 'C', 'M', 'P']:
+for k in ['b', 'c', 'm', 'p']:
 	score[k] = 3
-for k in ['F', 'H', 'V', 'W', 'Y']:
+for k in ['f', 'h', 'v', 'w', 'y']:
 	score[k] = 4
-for k in ['K']:
+for k in ['k']:
 	score[k] = 5
-for k in ['J', 'X']:
+for k in ['j', 'x']:
 	score[k] = 8
-for k in ['Q', 'Z']:
+for k in ['q', 'z']:
 	score[k] = 10
 
 
@@ -41,13 +41,13 @@ for i in range( len(scrabblewords) ):
 
 for word in list(goodwords):
 	for i in range(len(word)-1):
-		if word[i] == word[i+1] or word[0] == 'Q':
+		if word[i] == word[i+1] or word[0] == 'q':
 			goodwords.remove(word)
 			break
-		if word[i] == 'O' and word[i+1] == 'U':
+		if word[i] == 'o' and word[i+1] == 'u':
 			goodwords.remove(word)
 			break
-		if word[i] == 'U' and word[i+1] == 'O':
+		if word[i] == 'u' and word[i+1] == 'o':
 			goodwords.remove(word)
 			break
 
@@ -72,14 +72,14 @@ for tupl in list(quadlist):
 	charset = set()
 	charset2 = set()
 	for ch in tupl[0]: 
-		if ch not in ('A', 'E', 'I', 'O', 'U'): 
+		if ch not in ('a', 'e', 'i', 'o', 'u'): 
 			charset.add(ch)
 	for ch2 in tupl[3]:
-		if ch2 not in ('A', 'E', 'I', 'O', 'U'): 
+		if ch2 not in ('a', 'e', 'i', 'o', 'u'):
 			charset2.add(ch2)
 	if len(charset.intersection(charset2)) > 2:
 		quadlist.remove(tupl)
-	elif 'U' in (tupl[0][0], tupl[0][1], tupl[0][2], 
+	elif 'u' in (tupl[0][0], tupl[0][1], tupl[0][2], 
 		tupl[0][-1], tupl[0][-2], tupl[0][-3], 
 		tupl[1][0], tupl[1][1], tupl[1][2], 
 		tupl[1][-1], tupl[1][-2], 
