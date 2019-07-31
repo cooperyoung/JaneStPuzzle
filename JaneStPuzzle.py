@@ -66,18 +66,16 @@ for word in list(goodwords):
 
 
 ### Put goodwords into lists according to first letter
-# letterlist = {}
-keys = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 
-'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
-letterlist = dict.fromkeys(keys, [])
+
+letterlist = {'a': [], 'b': [], 'c': [], 'd': [], 'e': [], 'f': [], 'g': [], 'h': [], 'i': [], 'j': [], 
+'k': [], 'l': [], 'm': [], 'n': [], 'o': [], 'p': [], 'q': [], 'r': [], 's': [], 't': [], 'u': [], 
+'v': [], 'w': [], 'x': [], 'y': [], 'z': []}
 
 for word in goodwords:
 	ch = word[0]
 	letterlist[ch].append(word)
 
-print(letterlist['a'])
-
-exit()
+print(letterlist)
 
 ### Make quadruples out of good words
 quadlist = []
