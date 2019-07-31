@@ -1,4 +1,5 @@
 use std::fmt;
+use std::collections::HashSet;
 
 use colored::*;
 
@@ -12,7 +13,6 @@ pub fn is_vowel(c: char) -> bool {
     c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U'
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Clone)]
 pub struct ScraggleBoard {
     layout: [[char; 6]; 6]
@@ -92,34 +92,41 @@ impl ScraggleBoard {
     pub fn unset(&mut self, r: usize, c: usize) {
         self.layout[r][c] = ' ';
     }
-    pub fn make_chain(&mut self, chain: &mut Vec<String>, r: usize, c: usize, idx: usize) -> bool {
+    pub fn make_chain(&mut self, chain: &mut Vec<String>, letters: &mut HashSet<char>, r: usize, c: usize, idx: usize) -> bool {
         if idx > 3 { return true; }
-        /*
-        if idx < 2 {
-            println!("\nword[{}] = \"{}\" ({}, {})\n{}", idx, chain[idx], r, c, self);
-        }
-        */
         if chain[idx].is_empty() { return false; }
 
         let letter = chain[idx].chars().next().unwrap();
+        // I shouldn't need this stupid line
+        if self.is_empty(r, c) && !letters.contains(&letter) { return false; }
+
         chain[idx] = chain[idx][1..].to_string();
 
         if self.layout[r][c] == letter || (!is_vowel(letter) && self.is_empty(r,c)) {
             let was_empty = self.is_empty(r, c);
-            if self.is_empty(r, c) { self.layout[r][c] = letter; }
-            if chain[idx].is_empty() {
-                if ScraggleBoard::is_color(r, c, idx) && ScraggleBoard::is_color(r, c, idx+1) {
-                    if self.make_chain(chain, r, c, idx+1) { return true; }
-                }
-            } else {
-                for (dr, dc) in &MOVES {
-                    let (nr, nc) = (r as isize + *dr, c as isize + *dc);
-                    if nr < 0 || nc < 0 || nr > 5 || nc > 5 {continue;} 
-                    let (nr, nc) = (nr as usize, nc as usize);
-                    if self.make_chain(chain, nr, nc, idx) {return true;}
+
+            if !self.is_empty(r, c) || letters.contains(&letter) {
+                self.layout[r][c] = letter;
+                letters.remove(&letter);
+
+                if chain[idx].is_empty() {
+                    if ScraggleBoard::is_color(r, c, idx) && ScraggleBoard::is_color(r, c, idx+1) {
+                        if self.make_chain(chain, letters, r, c, idx+1) { return true; }
+                    }
+                } else {
+                    for (dr, dc) in &MOVES {
+                        let (nr, nc) = (r as isize + *dr, c as isize + *dc);
+                        if nr < 0 || nc < 0 || nr > 5 || nc > 5 {continue;} 
+                        let (nr, nc) = (nr as usize, nc as usize);
+                        if self.make_chain(chain, letters, nr, nc, idx) {return true;}
+                    }
                 }
             }
-            if was_empty { self.layout[r][c] = ' '; }
+
+            if was_empty { 
+                self.layout[r][c] = ' ';
+                letters.insert(letter);
+            }
         }
 
         chain[idx] = letter.to_string() + &chain[idx];

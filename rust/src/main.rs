@@ -30,7 +30,12 @@ fn make_chain(chain: &Vec<String>) -> Option<ScraggleBoard> {
     for r in 0..3 {
         for c in 0..3 {
             let mut board = ScraggleBoard::new();
-            if board.make_chain(&mut chain.clone(), r, c, 0) { return Some(board); }
+            let mut letters = HashSet::new();
+            for &c in &['B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N',
+                      'P', 'Q', 'R', 'S', 'T', 'V', 'W', 'X', 'Y', 'Z'] {
+                        letters.insert(c);
+            }
+            if board.make_chain(&mut chain.clone(), &mut letters, r, c, 0) { return Some(board); }
         }
     }
     None
@@ -64,12 +69,17 @@ fn main() {
                          "SKYWALKS".to_string(), "SKIJORERS".to_string()]);
     quads.insert(0, vec!["JOKING".to_string(), "GROTESQUELY".to_string(), 
                          "YEAH".to_string(), "HEXYLIC".to_string()]);
-    for mut quad in quads.into_iter().rev() {
+    quads.insert(0, vec!["TZITZITH".to_string(), "HAPHAZARDS".to_string(), 
+                         "SKYJACKS".to_string(), "SKYJACKING".to_string()]);
+    quads.insert(0, vec!["TZITZIT".to_string(), "TZITZITH".to_string(), 
+                         "TZITZITHS".to_string(), "TZITZITS".to_string()]);
+    for mut quad in quads {
         let q = quad.clone();
         if let Some(board) = make_chain(&quad) {
-            if !is_valid(&board) { continue; }
+            //if !is_valid(&board) { continue; }
             let score: usize = q.iter().map(|w| info.score(w)).product();
-            println!("{:?}: {}\n{}", q, score, board);
+            let qwscores: Vec<_> = q.iter().map(|w| (w, info.score(w))).collect();
+            if score > 500000 {println!("{:?}: {}\n{}", qwscores, score, board)}
         }
     }
 }
