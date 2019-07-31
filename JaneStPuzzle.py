@@ -1,7 +1,7 @@
 import string
 
 ### important variables
-minvalue = 30
+minvalue = 32
 maxlength = 15
 
 
@@ -45,7 +45,7 @@ for i in range( len(scrabblewords) ):
 	if highscore:
 		goodwords.append( scrabblewords[i] )
 
-
+exit()
 
 for word in list(goodwords):
 	for i in range(len(word)-1):
@@ -118,9 +118,9 @@ for tupl in list(quadlist):
 
 
 ######### export the list of tuples
-with open('quadruples_val30len15.txt', 'w') as f:
-	for quad in quadlist:
-		f.write("%s\n" % quad)
+# with open('quadruples_val30len15.txt', 'w') as f:
+# 	for quad in quadlist:
+# 		f.write("%s\n" % quad)
 
 
 
