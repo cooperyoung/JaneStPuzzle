@@ -1,6 +1,6 @@
 ### important variables
-minvalue = 34
-maxlength = 15
+minvalue = 25
+maxlength = 9
 
 
 ### uploads the entire scrabble dictionary
@@ -99,7 +99,7 @@ for tupl in list(quadlist):
 	for ch2 in tupl[3]:
 		if ch2 not in ('a', 'e', 'i', 'o', 'u'):
 			charset2.add(ch2)
-	if len(charset.intersection(charset2)) > 2:
+	if len(charset.intersection(charset2)) > 0:
 		quadlist.remove(tupl)
 	elif 'u' in (tupl[0][0], tupl[0][1], tupl[0][2], 
 		tupl[0][-1], tupl[0][-2], tupl[0][-3], 
@@ -112,11 +112,11 @@ for tupl in list(quadlist):
 		quadlist.remove(tupl)
 
 
-
+print(len(quadlist))
 ######### export the list of tuples
-# with open('quadruples_val30len15.txt', 'w') as f:
-# 	for quad in quadlist:
-# 		f.write("%s\n" % quad)
+with open('quads.txt', 'w') as f:
+    for quad in quadlist:
+ 	f.write("%s %s %s %s\n" % (quad[0], quad[1], quad[2], quad[3]))
 
 
 
@@ -133,11 +133,11 @@ for tupl in list(quadlist):
 
 
 
-
+"""
 print(len(quadlist))
 for q in quadlist: 
 	print(q) 
-
+"""
 
 
 
