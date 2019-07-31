@@ -154,7 +154,6 @@ with open('quads.txt', 'w') as f:
  	f.write("%s %s %s %s\n" % (quad[0], quad[1], quad[2], quad[3]))
 
 
-
 ############ checking to see if any last words can be improved
 # for word in goodwords:
 # 	goodletters = True

@@ -79,7 +79,10 @@ fn main() {
             //if !is_valid(&board) { continue; }
             let score: usize = q.iter().map(|w| info.score(w)).product();
             let qwscores: Vec<_> = q.iter().map(|w| (w, info.score(w))).collect();
-            if score > 500000 {println!("{:?}: {}\n{}", qwscores, score, board)}
+            if score > 500000 {
+                println!("{:?}: {}\n{}", qwscores, score, board);
+                println!("Old code says this {} valid", if is_valid(&board) {"is"} else {"isn't"});
+            }
         }
     }
 }
