@@ -1,7 +1,5 @@
-import string
-
 ### important variables
-minvalue = 32
+minvalue = 34
 maxlength = 15
 
 
@@ -38,14 +36,12 @@ goodwords = []
 def get_score(word):
 	return sum(map(lambda x: score[x], word))
 
-for i in range( len(scrabblewords) ):
+for i in range(len(scrabblewords)):
 	highscore = True
 	if (get_score(scrabblewords[i]) < minvalue) or (len(scrabblewords[i]) > maxlength) :
 		highscore = False
 	if highscore:
 		goodwords.append( scrabblewords[i] )
-
-exit()
 
 for word in list(goodwords):
 	for i in range(len(word)-1):
@@ -139,8 +135,8 @@ for tupl in list(quadlist):
 
 
 print(len(quadlist))
-# for q in quadlist: 
-# 	print(q) 
+for q in quadlist: 
+	print(q) 
 
 
 
