@@ -1,5 +1,7 @@
+import string
+
 ### important variables
-minvalue = 35
+minvalue = 33
 maxlength = 15
 
 
@@ -63,7 +65,21 @@ for word in list(goodwords):
 			break
 
 
-## Make quadruples out of good words
+### Put goodwords into lists according to first letter
+# letterlist = {}
+keys = set(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 
+'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
+letterlist = dict.fromkeys(keys, [])
+
+for word in goodwords:
+	ch = word[0]
+	letterlist[ch].append(word)
+
+print(letterlist['a'])
+
+exit()
+
+### Make quadruples out of good words
 quadlist = []
 
 for word1 in list(goodwords):
@@ -101,10 +117,10 @@ for tupl in list(quadlist):
 
 
 
-############ export the list of tuples
-# with open('quadruples<32.txt', 'w') as f:
-# 	for quad in quadlist:
-# 		f.write("%s\n" % quad)
+######### export the list of tuples
+with open('quadruples_val28len10.txt', 'w') as f:
+	for quad in quadlist:
+		f.write("%s\n" % quad)
 
 
 
@@ -122,7 +138,7 @@ for tupl in list(quadlist):
 
 
 
-# print(len(quadlist))
+print(len(quadlist))
 # for q in quadlist: 
 # 	print(q) 
 
