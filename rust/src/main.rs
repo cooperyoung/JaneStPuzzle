@@ -69,7 +69,7 @@ fn read_quads(path: &str) -> Vec<Vec<String>> {
 fn main() {
     let info = ScrabbleInfo::new();
 
-    let mut quads = read_quads("../quadruples_val28len10.txt");
+    let mut quads = read_quads("../quads.txt");
     quads.insert(0, vec!["EXANTHEMA".to_string(), "AXIOMATIZATIONS".to_string(), 
                          "SKYWALKS".to_string(), "SKIJORERS".to_string()]);
     quads.insert(0, vec!["JOKING".to_string(), "GROTESQUELY".to_string(), 
