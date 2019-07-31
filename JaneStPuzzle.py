@@ -1,7 +1,7 @@
 import string
 
 ### important variables
-minvalue = 33
+minvalue = 30
 maxlength = 15
 
 
@@ -28,6 +28,7 @@ for k in ['j', 'x']:
 	score[k] = 8
 for k in ['q', 'z']:
 	score[k] = 10
+
 
 
 ### goes through scrabble words and puts the 
@@ -75,20 +76,21 @@ for word in goodwords:
 	ch = word[0]
 	letterlist[ch].append(word)
 
-print(letterlist)
+
 
 ### Make quadruples out of good words
 quadlist = []
 
 for word1 in list(goodwords):
-	for word2 in list(goodwords):
+	for word2 in list(letterlist[word1[-1]]):
 		if word1[-1] == word2[0]:
-			for word3 in list(goodwords):
+			for word3 in list(letterlist[word2[-1]]):
 				if word2[-1] == word3[0] and word3 != word1:
-					for word4 in list(goodwords):
+					for word4 in list(letterlist[word3[-1]]):
 						if word3[-1] == word4[0] and word2 != word4:
 							templist = [word1, word2, word3, word4]
 							quadlist.append(templist)
+							
 
 
 ### Refine list of quadruples using characteristics quadruples must have
@@ -116,7 +118,7 @@ for tupl in list(quadlist):
 
 
 ######### export the list of tuples
-with open('quadruples_val28len10.txt', 'w') as f:
+with open('quadruples_val30len15.txt', 'w') as f:
 	for quad in quadlist:
 		f.write("%s\n" % quad)
 
