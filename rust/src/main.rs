@@ -1,18 +1,17 @@
 extern crate radix_trie;
 extern crate colored;
-#[macro_use] extern crate itertools;
 
 mod scrabble;
 mod board;
 
 use std::time::Instant;
-
-use itertools::Itertools;
-
-use scrabble::ScrabbleInfo;
+use std::fs::File;
+use std::io::prelude::*;
+use std::io::BufReader;
 
 use board::ScraggleBoard;
 
+/*
 fn search_boards(board: &mut ScraggleBoard, letters: &mut Vec<char>, info: &ScrabbleInfo,
                  count: &mut usize) {
     *count += 1;
@@ -34,6 +33,7 @@ fn search_boards(board: &mut ScraggleBoard, letters: &mut Vec<char>, info: &Scra
         }
     }
 }
+*/
 
 fn make_chain(chain: &mut Vec<String>) -> Option<ScraggleBoard> {
     let mut board = ScraggleBoard::new();
@@ -43,6 +43,17 @@ fn make_chain(chain: &mut Vec<String>) -> Option<ScraggleBoard> {
         }
     }
     None
+}
+
+fn read_quads(path: String) -> Vec<Vec<String>> {
+    let mut quads = Vec::new();
+
+    let file = File::open(path).expect("Fuck!");
+    let reader = BufReader::new(file);
+    for line in reader.lines() {
+        quads.push(line.expect("Fuck!").split_ascii_whitespace().map(|s| s.to_string()).collect());
+    }
+    quads
 }
 
 fn main() {

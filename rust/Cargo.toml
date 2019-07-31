@@ -6,4 +6,3 @@ authors = ["NivenT <nachenjang@gmail.com>"]
 [dependencies]
 radix_trie = "0.1.4"
 colored = "1.8"
-itertools = "0.8.0"
