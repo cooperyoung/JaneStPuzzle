@@ -8,7 +8,7 @@ const MOVES: [(isize, isize); 8] = [(-1, -1), (-1, 0), (-1, 1),
                                     ( 0, -1),          ( 0, 1),
                                     ( 1, -1), ( 1, 0), ( 1, 1)];
 
-fn is_vowel(c: char) -> bool {
+pub fn is_vowel(c: char) -> bool {
     c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U'
 }
 
@@ -82,6 +82,9 @@ impl ScraggleBoard {
     }
     pub fn is_empty(&self, r: usize, c: usize) -> bool {
         self.layout[r][c] == ' '
+    }
+    pub fn get(&self, r: usize, c: usize) -> char {
+        self.layout[r][c]
     }
     pub fn set(&mut self, r: usize, c: usize, letter: char) {
         self.layout[r][c] = letter;

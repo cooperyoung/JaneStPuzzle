@@ -4,37 +4,27 @@ extern crate colored;
 mod scrabble;
 mod board;
 
-use std::time::Instant;
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
 use scrabble::ScrabbleInfo;
 use board::ScraggleBoard;
+use board::is_vowel;
 
-/*
-fn search_boards(board: &mut ScraggleBoard, letters: &mut Vec<char>, info: &ScrabbleInfo,
-                 count: &mut usize) {
-    *count += 1;
-    if *count%10000 == 0 {println!("count: {}", count);}
-
-    if letters.is_empty() {return;}
-    if letters.len() < 8 {return;}
-    //if !board.is_valid(info) { println!("Invalid"); return;}
-    //println!("{}", board);
-    for r in (0..6).rev() {
-        for c in (0..6).rev() {
-            if board.is_empty(r, c) {
-                let letter = letters.pop().unwrap();
-                board.set(r, c, letter);
-                search_boards(board, letters, info, count);
-                board.unset(r, c);
-                letters.push(letter);
-            }
+fn is_valid(board: &ScraggleBoard) -> bool {
+    let mut letters = HashSet::new();
+    for r in 0..6 {
+        for c in 0..6 {
+            if board.is_empty(r, c) || is_vowel(board.get(r, c)) {continue;}
+            let size = letters.len();
+            letters.insert(board.get(r, c));
+            if size == letters.len() {return false;}
         }
     }
+    true
 }
-*/
 
 fn make_chain(chain: &Vec<String>) -> Option<ScraggleBoard> {
     for r in 0..3 {
@@ -74,9 +64,10 @@ fn main() {
                          "SKYWALKS".to_string(), "SKIJORERS".to_string()]);
     quads.insert(0, vec!["JOKING".to_string(), "GROTESQUELY".to_string(), 
                          "YEAH".to_string(), "HEXYLIC".to_string()]);
-    for mut quad in quads {
+    for mut quad in quads.into_iter().rev() {
         let q = quad.clone();
         if let Some(board) = make_chain(&quad) {
+            if !is_valid(&board) { continue; }
             let score: usize = q.iter().map(|w| info.score(w)).product();
             println!("{:?}: {}\n{}", q, score, board);
         }
