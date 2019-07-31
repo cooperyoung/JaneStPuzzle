@@ -1,6 +1,6 @@
 ### important variables
-minvalue = 25
-maxlength = 9
+minvalue = 29
+maxlength = 15
 
 def is_valid(tupl):
     charset = set()
@@ -23,6 +23,21 @@ def is_valid(tupl):
 	         tupl[3][-1], tupl[3][-2], tupl[3][-3]): 
 	return False
     return True
+
+def is_valid_word(word):
+    for i in range(len(word)-1):
+	if word[i] == word[i+1] or word[0] == 'q':
+	    return False
+	if word[i] == 'o' and word[i+1] == 'u':
+	    return False
+	if word[i] == 'u' and word[i+1] == 'o':
+	    return False
+	if word[i] == 'u' and word[i+1] == 'i':
+	    return False
+	if word[i] == 'i' and word[i+1] == 'u':
+	    return False
+    return True
+
 
 ### uploads the entire scrabble dictionary
 with open("scrabblewords.txt", "r") as longlist:
@@ -61,9 +76,9 @@ for i in range(len(scrabblewords)):
 	highscore = True
 	if (get_score(scrabblewords[i]) < minvalue) or (len(scrabblewords[i]) > maxlength) :
 		highscore = False
-	if highscore:
+	if highscore and is_valid_word(scrabblewords[i]):
 		goodwords.append( scrabblewords[i] )
-
+"""
 for word in list(goodwords):
 	for i in range(len(word)-1):
 		if word[i] == word[i+1] or word[0] == 'q':
@@ -81,7 +96,7 @@ for word in list(goodwords):
 		if word[i] == 'i' and word[i+1] == 'u':
 			goodwords.remove(word)
 			break
-
+"""
 
 ### Put goodwords into lists according to first letter
 
