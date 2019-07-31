@@ -9,6 +9,7 @@ use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
 
+use scrabble::ScrabbleInfo;
 use board::ScraggleBoard;
 
 /*
@@ -35,34 +36,49 @@ fn search_boards(board: &mut ScraggleBoard, letters: &mut Vec<char>, info: &Scra
 }
 */
 
-fn make_chain(chain: &mut Vec<String>) -> Option<ScraggleBoard> {
-    let mut board = ScraggleBoard::new();
+fn make_chain(chain: &Vec<String>) -> Option<ScraggleBoard> {
     for r in 0..3 {
         for c in 0..3 {
-            if board.make_chain(chain, r, c, 0) { return Some(board); }
+            let mut board = ScraggleBoard::new();
+            if board.make_chain(&mut chain.clone(), r, c, 0) { return Some(board); }
         }
     }
     None
 }
 
-fn read_quads(path: String) -> Vec<Vec<String>> {
+fn read_quads(path: &str) -> Vec<Vec<String>> {
     let mut quads = Vec::new();
 
-    let file = File::open(path).expect("Fuck!");
+    let file = File::open(path).expect("Fuck!!");
     let reader = BufReader::new(file);
     for line in reader.lines() {
-        quads.push(line.expect("Fuck!").split_ascii_whitespace().map(|s| s.to_string()).collect());
+        let quad: Vec<String> = line.expect("Fuck!").split_ascii_whitespace().map(|s| s.to_string().to_uppercase()).collect();
+        
+        let mut unique = true;
+        for i in 0..4 {
+            for j in i+1..4 {
+                if quad[i] == quad[j] { unique = false; }
+            }
+        }
+
+        if unique {quads.push(quad);}
     }
     quads
 }
 
 fn main() {
-    let now = Instant::now();
-    for _ in 0..20000 {
-        make_chain(&mut vec!["JOKING".to_string(), "GROTESQUELY".to_string(), 
-                                     "YEAH".to_string(), "HEXYLIC".to_string()]);
+    let info = ScrabbleInfo::new();
+
+    let mut quads = read_quads("../quadruples_val28len10.txt");
+    quads.insert(0, vec!["EXANTHEMA".to_string(), "AXIOMATIZATIONS".to_string(), 
+                         "SKYWALKS".to_string(), "SKIJORERS".to_string()]);
+    quads.insert(0, vec!["JOKING".to_string(), "GROTESQUELY".to_string(), 
+                         "YEAH".to_string(), "HEXYLIC".to_string()]);
+    for mut quad in quads {
+        let q = quad.clone();
+        if let Some(board) = make_chain(&quad) {
+            let score: usize = q.iter().map(|w| info.score(w)).product();
+            println!("{:?}: {}\n{}", q, score, board);
+        }
     }
-    println!("Took {} nanoseconds", now.elapsed().as_nanos());
-    println!("Took {} milliseconds", now.elapsed().as_millis());
-    println!("Took {} seconds", now.elapsed().as_secs());
 }

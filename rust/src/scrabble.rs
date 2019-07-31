@@ -45,7 +45,7 @@ impl ScrabbleInfo {
         ScrabbleInfo { lexicon: trie }
     }
     pub fn score(&self, word: &String) -> usize {
-        *self.lexicon.get(word).unwrap_or(&0)
+        self.lexicon.get(word).map_or(word.chars().map(|c| letter_val(c)).sum(), |d| *d)
     }
     pub fn print_stats(&self) {
         println!("There are {} words in the dictionary", self.lexicon.len());

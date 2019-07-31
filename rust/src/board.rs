@@ -102,6 +102,7 @@ impl ScraggleBoard {
         chain[idx] = chain[idx][1..].to_string();
 
         if self.layout[r][c] == letter || (!is_vowel(letter) && self.is_empty(r,c)) {
+            let was_empty = self.is_empty(r, c);
             if self.is_empty(r, c) { self.layout[r][c] = letter; }
             if chain[idx].is_empty() {
                 if ScraggleBoard::is_color(r, c, idx) && ScraggleBoard::is_color(r, c, idx+1) {
@@ -115,7 +116,7 @@ impl ScraggleBoard {
                     if self.make_chain(chain, nr, nc, idx) {return true;}
                 }
             }
-            if !is_vowel(letter) { self.layout[r][c] = ' '; }
+            if was_empty { self.layout[r][c] = ' '; }
         }
 
         chain[idx] = letter.to_string() + &chain[idx];
