@@ -2,6 +2,27 @@
 minvalue = 25
 maxlength = 9
 
+def is_valid(tupl):
+    charset = set()
+    charset2 = set()
+    for ch in tupl[0]: 
+	if ch not in ('a', 'e', 'i', 'o', 'u'): 
+	    charset.add(ch)
+    for ch2 in tupl[3]:
+	if ch2 not in ('a', 'e', 'i', 'o', 'u'):
+	    charset2.add(ch2)
+    if len(charset.intersection(charset2)) > 0:
+	return False
+    elif 'u' in (tupl[0][0], tupl[0][1], tupl[0][2], 
+		 tupl[0][-1], tupl[0][-2], tupl[0][-3], 
+		 tupl[1][0], tupl[1][1], tupl[1][2], 
+		 tupl[1][-1], tupl[1][-2], 
+		 tupl[2][0], tupl[2][1], 
+		 tupl[2][-1], tupl[2][-2], tupl[2][-3], 
+		 tupl[3][0], tupl[3][1], tupl[3][2], 
+	         tupl[3][-1], tupl[3][-2], tupl[3][-3]): 
+	return False
+    return True
 
 ### uploads the entire scrabble dictionary
 with open("scrabblewords.txt", "r") as longlist:
@@ -85,9 +106,8 @@ for word1 in list(goodwords):
 					for word4 in list(letterlist[word3[-1]]):
 						if word3[-1] == word4[0] and word2 != word4:
 							templist = [word1, word2, word3, word4]
-							quadlist.append(templist)
-							
-
+							if is_valid(templist): quadlist.append(templist)
+							        
 
 ### Refine list of quadruples using characteristics quadruples must have
 for tupl in list(quadlist):
